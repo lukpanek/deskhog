@@ -57,6 +57,26 @@ QuestionCard::QuestionCard(lv_obj_t* parent)
     addQuestion("What\'s a random topic you could give a 10-minute presentation on with no prep?");
     addQuestion("What\'s a trend you secretly (or not so secretly) loved?");
     addQuestion("Pineapple on pizza: yes or no?");
+    
+    // International workplace teambuilding questions
+    addQuestion("What\'s a tradition from your culture that you think everyone should try?");
+    addQuestion("If you could teach a coworker one phrase in your native language, what would it be and why?");
+    addQuestion("What\'s the most interesting cultural difference you\'ve noticed working internationally?");
+    addQuestion("What\'s a comfort food from your childhood that you wish was available everywhere?");
+    addQuestion("If you could instantly transport the team to any place you\'ve lived or visited, where would it be?");
+    addQuestion("What\'s something your country does differently that surprised you when you traveled abroad?");
+    addQuestion("What\'s the best piece of advice you\'ve received from a colleague from a different culture?");
+    addQuestion("If you could add one holiday from any culture to our company calendar, what would it be?");
+    addQuestion("What\'s a skill you learned growing up that might surprise your coworkers?");
+    addQuestion("What\'s the most interesting way you\'ve seen someone solve a problem in your career?");
+    addQuestion("If our team had a theme song for collaboration, what would it be?");
+    addQuestion("What\'s something you\'re excited to learn from your international colleagues?");
+    addQuestion("If you could swap jobs with any teammate for a day, who would it be and why?");
+    addQuestion("What\'s a local business or restaurant from your area that you\'d recommend to visiting colleagues?");
+    addQuestion("What\'s the most creative team celebration you\'ve ever been part of?");
+    addQuestion("If you could add one cultural practice to improve our workplace, what would it be?");
+    addQuestion("What\'s a misconception people often have about your country or culture?");
+    addQuestion("What\'s the best \'welcome to the team\' gesture you\'ve ever experienced or given?");
 
     if (!_questions.empty())
         setText(_questions[0].c_str());

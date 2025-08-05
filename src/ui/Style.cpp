@@ -8,6 +8,7 @@ const lv_font_t* Style::_label_font = nullptr;
 const lv_font_t* Style::_value_font = nullptr;
 const lv_font_t* Style::_large_value_font = nullptr;
 const lv_font_t* Style::_loud_noises_font = nullptr;
+const lv_font_t* Style::_loud_noises_font_large = nullptr;
 bool Style::_fonts_initialized = false;
 
 void Style::initFonts() {
@@ -39,6 +40,10 @@ void Style::initFonts() {
     // Fourth font - LoudNoises for decorative text
     _loud_noises_font = &font_loud_noises;
     Serial.println("LoudNoises font loaded (20pt)");
+
+    // Fifth font - Large LoudNoises for big decorative text
+    _loud_noises_font_large = &font_loud_noises_large;
+    Serial.println("LoudNoises Large font loaded (32pt)");
 
     _fonts_initialized = true;
     Serial.printf("After font init - Free PSRAM: %d bytes\n", ESP.getFreePsram());

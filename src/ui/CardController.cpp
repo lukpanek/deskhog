@@ -1,5 +1,7 @@
 #include "ui/CardController.h"
 #include "ui/PaddleCard.h"
+#include "ui/ClockCard.h"
+#include "ui/LukasCard.h"
 #include <algorithm>
 
 QueueHandle_t CardController::uiQueue = nullptr;
@@ -356,6 +358,39 @@ void CardController::initializeCardTypes() {
     };
     registerCardType(questionDef);
     
+    // Register LUKAS card type
+    CardDefinition lukasDef;
+    lukasDef.type = CardType::LUKAS;
+    lukasDef.name = "Lukas Phrases";
+    lukasDef.allowMultiple = false;  // Only one Lukas card at a time
+    lukasDef.needsConfigInput = false;
+    lukasDef.configInputLabel = "";
+    lukasDef.uiDescription = "Czech phrases about Lukáš Pánek for entertainment.";
+    lukasDef.factory = [this](const String& configValue) -> lv_obj_t* {
+        Serial.println("=== LUKAS CARD FACTORY CALLED ===");
+        Serial.printf("Creating LukasCard with config: %s\n", configValue.c_str());
+        
+        LukasCard* newCard = new LukasCard(screen);
+        Serial.printf("LukasCard created: %p\n", newCard);
+        
+        if (newCard && newCard->getCard()) {
+            Serial.printf("LukasCard getCard() returned: %p\n", newCard->getCard());
+            // Add to unified tracking system
+            CardInstance instance{newCard, newCard->getCard()};
+            dynamicCards[CardType::LUKAS].push_back(instance);
+            
+            // Register as input handler
+            cardStack->registerInputHandler(newCard->getCard(), newCard);
+            Serial.println("LukasCard successfully created and registered!");
+            return newCard->getCard();
+        }
+        
+        Serial.println("ERROR: LukasCard creation failed!");
+        delete newCard;
+        return nullptr;
+    };
+    registerCardType(lukasDef);
+    
     // Register PADDLE card type
     CardDefinition paddleDef;
     paddleDef.type = CardType::PADDLE;
@@ -381,6 +416,32 @@ void CardController::initializeCardTypes() {
         return nullptr;
     };
     registerCardType(paddleDef);
+    
+    // Register CLOCK card type
+    CardDefinition clockDef;
+    clockDef.type = CardType::CLOCK;
+    clockDef.name = "Clock";
+    clockDef.allowMultiple = false;  // Only one clock at a time
+    clockDef.needsConfigInput = false;
+    clockDef.configInputLabel = "";
+    clockDef.uiDescription = "Beautiful clock with dynamic backgrounds";
+    clockDef.factory = [this](const String& configValue) -> lv_obj_t* {
+        ClockCard* newCard = new ClockCard(screen);
+        
+        if (newCard && newCard->getCard()) {
+            // Add to unified tracking system
+            CardInstance instance{newCard, newCard->getCard()};
+            dynamicCards[CardType::CLOCK].push_back(instance);
+            
+            // Register as input handler
+            cardStack->registerInputHandler(newCard->getCard(), newCard);
+            return newCard->getCard();
+        }
+        
+        delete newCard;
+        return nullptr;
+    };
+    registerCardType(clockDef);
 }
 
 void CardController::handleCardConfigChanged() {

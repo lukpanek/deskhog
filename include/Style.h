@@ -8,6 +8,7 @@ private:
     static const lv_font_t* _value_font;
     static const lv_font_t* _large_value_font;
     static const lv_font_t* _loud_noises_font;
+    static const lv_font_t* _loud_noises_font_large;
     static bool _fonts_initialized;
 
     // Initialize fonts - implemented in Style.cpp
@@ -38,6 +39,11 @@ public:
     static const lv_font_t* loudNoisesFont() {
         initFonts();
         return _loud_noises_font;
+    }
+    
+    static const lv_font_t* loudNoisesFontLarge() {
+        initFonts();
+        return _loud_noises_font_large;
     }
 
     // Text colors
