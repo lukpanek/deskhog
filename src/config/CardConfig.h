@@ -15,7 +15,8 @@ enum class CardType {
     QUESTION,     ///< Question trivia card
     PADDLE,       ///< Paddle game card
     CLOCK,        ///< Clock card showing current time
-    LUKAS         ///< Lukas phrase card with cycling Czech phrases
+    LUKAS,        ///< Lukas phrase card with cycling Czech phrases
+    RADIO_ARTICLE ///< Radio article card showing latest articles from student radio
     // New card types can be added here
 };
 
@@ -89,6 +90,7 @@ inline String cardTypeToString(CardType type) {
         case CardType::PADDLE: return "PADDLE";
         case CardType::CLOCK: return "CLOCK";
         case CardType::LUKAS: return "LUKAS";
+        case CardType::RADIO_ARTICLE: return "RADIO_ARTICLE";
         default: return "UNKNOWN";
     }
 }
@@ -107,5 +109,6 @@ inline CardType stringToCardType(const String& str) {
     if (str == "PADDLE") return CardType::PADDLE;
     if (str == "CLOCK") return CardType::CLOCK;
     if (str == "LUKAS") return CardType::LUKAS;
+    if (str == "RADIO_ARTICLE") return CardType::RADIO_ARTICLE;
     return CardType::INSIGHT; // Default fallback
 }

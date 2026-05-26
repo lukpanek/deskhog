@@ -2,6 +2,7 @@
 #include "ui/PaddleCard.h"
 #include "ui/ClockCard.h"
 #include "ui/LukasCard.h"
+#include "ui/RadioArticleCard.h"
 #include <algorithm>
 
 QueueHandle_t CardController::uiQueue = nullptr;
@@ -442,6 +443,38 @@ void CardController::initializeCardTypes() {
         return nullptr;
     };
     registerCardType(clockDef);
+    
+    // Register RADIO_ARTICLE card type
+    CardDefinition radioArticleDef;
+    radioArticleDef.type = CardType::RADIO_ARTICLE;
+    radioArticleDef.name = "Radio Article";
+    radioArticleDef.allowMultiple = false;  // Only one radio article card at a time
+    radioArticleDef.needsConfigInput = false;
+    radioArticleDef.configInputLabel = "";
+    radioArticleDef.uiDescription = "Shows the latest article from student radio CUE";
+    radioArticleDef.factory = [this](const String& configValue) -> lv_obj_t* {
+        Serial.println("=== RADIO ARTICLE CARD FACTORY CALLED ===");
+        
+        RadioArticleCard* newCard = new RadioArticleCard(screen, eventQueue, screenWidth, screenHeight);
+        Serial.printf("RadioArticleCard created: %p\n", newCard);
+        
+        if (newCard && newCard->getCard()) {
+            Serial.printf("RadioArticleCard getCard() returned: %p\n", newCard->getCard());
+            // Add to unified tracking system
+            CardInstance instance{newCard, newCard->getCard()};
+            dynamicCards[CardType::RADIO_ARTICLE].push_back(instance);
+            
+            // Register as input handler
+            cardStack->registerInputHandler(newCard->getCard(), newCard);
+            Serial.println("RadioArticleCard successfully created and registered!");
+            return newCard->getCard();
+        }
+        
+        Serial.println("ERROR: RadioArticleCard creation failed!");
+        delete newCard;
+        return nullptr;
+    };
+    registerCardType(radioArticleDef);
 }
 
 void CardController::handleCardConfigChanged() {
